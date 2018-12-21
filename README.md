@@ -87,5 +87,5 @@ make
 
 ## References:
 
-http://code.google.com/p/googletest/wiki/Documentation
-http://www.ibm.com/developerworks/aix/library/au-googletestingframework.html
+ - http://code.google.com/p/googletest/wiki/Documentation
+ - http://www.ibm.com/developerworks/aix/library/au-googletestingframework.html
