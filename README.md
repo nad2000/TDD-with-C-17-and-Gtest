@@ -85,6 +85,15 @@ make
 ./runTests
 ```
 
+## Alternative Way of Running Tests w/o cmake
+
+Assuming your test are placed in **test.cpp** build and run tests with:
+
+```shell
+clang++ -O3 -std=c++17 test.cpp -lgtest -lgtest_main  -o test -pthread ; ./test
+
+```
+
 ## References:
 
  - http://code.google.com/p/googletest/wiki/Documentation
