@@ -114,6 +114,18 @@ TEST(TestName, Subtest_2) {
 	ASSERT_FALSE(1 == 42);
 }
 
+
+void theUltimateAnswer(string theUltimateQuestion) {
+	cout << "42" << endl;
+}
+
+TEST(TheUltimateAnswerTest, AfterManyYears) {
+	testing::internal::CaptureStdout();
+	theUltimateAnswer("the meaning of life, the universe, and everything");
+	auto output = testing::internal::GetCapturedStdout();
+	ASSERT_STREQ(output.c_str(), "42\n");
+}
+
 int main(int argc, char **argv) {
 	testing::InitGoogleTest(&argc, argv);
 
