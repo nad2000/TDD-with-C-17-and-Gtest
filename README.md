@@ -14,9 +14,13 @@ Note that this package only install source files. You have to compile the code y
 
 ```shell
 sudo apt-get install cmake # install cmake
-cd /usr/src/gtest
-sudo cmake CMakeLists.txt
-sudo make
+git clone https://github.com/google/googletest.git
+cd googletest
+mkdir build
+cd build
+cmake ../ -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_CXX_FLAGS="-std=c++17"
+make
+sudo make install
 
 # copy or symlink libgtest.a and libgtest_main.a to your /usr/lib folder
 sudo cp *.a /usr/lib
