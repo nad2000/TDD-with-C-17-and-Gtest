@@ -12,13 +12,27 @@ protected:
 };
 
 TEST_F(CheckoutTests, CanAddAnItemPrice){
-	Checkout co;
 	co.addItemPrice("a", 1);
 }
 
 TEST_F(CheckoutTests, CanAddAnItem){
-	Checkout co;
 	co.addItem("a");
+}
+
+TEST_F(CheckoutTests, CanCalculateTotal){
+	co.addItemPrice("a", 1);
+	co.addItem("a");
+	auto total = co.getTotal();
+	ASSERT_EQ(total, 1);
+}
+
+TEST_F(CheckoutTests, CanCalculateTotalForMultiple){
+	co.addItemPrice("a", 1);
+	co.addItemPrice("b", 2);
+	co.addItem("a");
+	co.addItem("b");
+	auto total = co.getTotal();
+	ASSERT_EQ(total, 3);
 }
 
 int main(int argc, char *argv[])
