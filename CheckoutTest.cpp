@@ -1,19 +1,22 @@
+// RUN:
+// clang++ -O3 -std=c++17 Checkout.cpp CheckoutTest.cpp -lgtest -lgtest_main  -o test -pthread ; ./test
 #include <iostream>
 #include <gtest/gtest.h>
 #include "Checkout.hpp"
 
 using namespace std;
 
-TEST(CheckoutTests, CanInstantiateCheckout){
+class CheckoutTests: public ::testing::Test {
+protected:
 	Checkout co;
-}
+};
 
-TEST(CheckoutTests, CanAddAnItemPrice){
+TEST_F(CheckoutTests, CanAddAnItemPrice){
 	Checkout co;
 	co.addItemPrice("a", 1);
 }
 
-TEST(CheckoutTests, CanAddAnItem){
+TEST_F(CheckoutTests, CanAddAnItem){
 	Checkout co;
 	co.addItem("a");
 }
