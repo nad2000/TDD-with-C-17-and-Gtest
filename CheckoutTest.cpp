@@ -35,6 +35,20 @@ TEST_F(CheckoutTests, CanCalculateTotalForMultiple){
 	ASSERT_EQ(total, 3);
 }
 
+TEST_F(CheckoutTests, CanAddDiscount){
+	co.addDiscount("a", 3, 2);
+}
+
+TEST_F(CheckoutTests, CanCalculateTotalWithDiscount){
+	co.addItemPrice("a", 1);
+	co.addDiscount("a", 3, 2);
+	co.addItem("a");
+	co.addItem("a");
+	co.addItem("a");
+	auto total = co.getTotal();
+	ASSERT_EQ(total, 2);
+}
+
 int main(int argc, char *argv[])
 {
 	::testing::InitGoogleTest( &argc, argv );
