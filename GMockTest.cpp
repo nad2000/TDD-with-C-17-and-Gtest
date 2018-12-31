@@ -25,11 +25,16 @@ public:
 	DataHolder(QueueInterface *queue): queue(queue) {}
 };
 
-
-
-TEST(GMockTests, CanInstatiateDataHolder) {
+class GMockTests: public ::testing::Test {
+public:
+	DataHolder dh;
+	GMockTests(): ::testing::Test(), dh(&myMockObj) {}
+protected:
 	MockQueue myMockObj;
-	DataHolder dh(&myMockObj);
+};
+
+TEST_F(GMockTests, CanInstatiateDataHolder) {
+	// ASSERT_TRUE(dh.queue == &myMockObj);
 }
 
 	
