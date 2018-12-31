@@ -4,6 +4,10 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+using namespace std;
+using ::testing::_;
+using ::testing::Return;
+
 class QueueInterface {
 public:
 	virtual ~QueueInterface() {}
@@ -23,6 +27,12 @@ protected:
 	
 public:
 	DataHolder(QueueInterface *queue): queue(queue) {}
+	void addData(int data) {
+		queue->enqueue(data);
+	}
+	int getData() {
+		return queue->dequeue();
+	}
 };
 
 class GMockTests: public ::testing::Test {
@@ -35,6 +45,19 @@ protected:
 
 TEST_F(GMockTests, CanInstatiateDataHolder) {
 	// ASSERT_TRUE(dh.queue == &myMockObj);
+}
+
+TEST_F(GMockTests, CanAddData) {
+	EXPECT_CALL(myMockObj, enqueue(1));
+	dh.addData(1);
+}
+
+TEST_F(GMockTests, CanAddAndGetData) {
+	EXPECT_CALL(myMockObj, enqueue(1));
+	EXPECT_CALL(myMockObj, dequeue()).WillOnce(Return(1));
+	dh.addData(1);
+	auto res = dh.getData();
+	ASSERT_EQ(res, 1);
 }
 
 	
