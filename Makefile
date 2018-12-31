@@ -176,3 +176,12 @@ cmake_check_build_system:
 	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
+Checkout.o: Checkout.cpp
+	clang++ -c -Wall -O3 -std=c++17 -o Checkout.o Checkout.cpp
+
+Checkout.a: Checkout.o
+	llvm-ar rc Checkout.a Checkout.o
+
+CheckoutTest: Checkout.a CheckoutTest.cpp
+	clang++ -O3 -std=c++17 -pthread CheckoutTest.cpp Checkout.a  $(HOME)/googletest/build/lib/*.a -o test 
+	./test
