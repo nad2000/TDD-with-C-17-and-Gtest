@@ -14,17 +14,26 @@ void Checkout::addItem(std::string item) {
 	items[item]++;
 }
 
+int Checkout::calculateItem(std::string item, int count) {
+	auto discount = distcounts[item];
+	if (discount.numberOfItems && count >= discount.numberOfItems) {
+		return calculateItemDiscount(item, count, discount);
+	} else {
+		return prices[item] * count;
+	}
+}
+
+int Checkout::calculateItemDiscount(std::string item, int count, const Distcount& discount) {
+	return
+		(count / discount.numberOfItems ) * discount.discountPrice
+		+ prices[item] * (count % discount.numberOfItems);
+}
+
+
 int Checkout::getTotal() {
 	int total = 0;
 	for (auto const &[item, count]: items) {
-		auto discount = distcounts[item];
-		if (discount.numberOfItems && count >= discount.numberOfItems) {
-			total += 
-				(count / discount.numberOfItems ) * discount.discountPrice
-				+ prices[item] * (count % discount.numberOfItems);
-		} else {
-			total += prices[item] * count;
-		}
+		total += calculateItem(item, count);
 	}
 	return total;
 }

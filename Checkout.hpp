@@ -23,6 +23,8 @@ public:
 	void addItemPrice(std::string item, int price);
 	void addItem(std::string item);
 	void addDiscount(std::string item, int numberOfItems, int discountPrice);
+	int calculateItem(std::string item, int count);
+	int calculateItemDiscount(std::string item, int count, const Distcount& discount);
 	int getTotal();
 	Checkout();
 	virtual ~Checkout();
