@@ -1,16 +1,7 @@
-# TDD with C++17 and Google Test
+# TDD with C++17 (and beyond) and Google Test
 
-Google test is a framework for writing C++ unit tests. In this short post is given instruction how to set up testing
-environtmet on Linux Mint or any other Ubuntu based distro. However you can use it for other distros or build from 
-the source.
-
-Start by installing the gtest development package:
-
-```shell
-sudo apt-get install libgtest-dev
-```
-
-Note that this package only install source files. You have to compile the code yourself to create the necessary library files. These source files should be located at /usr/src/gtest. Browse to this folder and use cmake to compile the library:
+Google test is a framework for writing C++ unit tests. In this short post are given instructions how to set up testing
+environtmet on Linux from source:
 
 ```shell
 sudo apt-get install cmake # install cmake
@@ -19,6 +10,8 @@ cd googletest
 mkdir build
 cd build
 cmake ../ -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_CXX_FLAGS="-std=c++17"
+# If you opt to go with C++20
+# cmake ../ -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_CXX_FLAGS="-std=c++2a"
 make
 sudo make install
 
@@ -97,6 +90,8 @@ Assuming your test are placed in **test.cpp** build and run tests with:
 clang++ -O3 -std=c++17 test.cpp -lgtest -lgtest_main  -o test -pthread ; ./test
 
 ```
+You can hand-craft your *Makefile* from scratch too. Take a look at [Makefile in this project](./Makefile). 
+At the end of it you can find hand-crafted targest for the testing of an individual modulese.
 
 ## Mocking and Test Doubles
 
