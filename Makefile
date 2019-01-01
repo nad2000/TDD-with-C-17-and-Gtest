@@ -182,6 +182,11 @@ Checkout.o: Checkout.cpp
 Checkout.a: Checkout.o
 	llvm-ar rc Checkout.a Checkout.o
 
-CheckoutTest: Checkout.a CheckoutTest.cpp
-	clang++ -O3 -std=c++2a -pthread CheckoutTest.cpp Checkout.a  $(HOME)/googletest/build/lib/*.a -o test 
-	./test
+.CheckoutTest: Checkout.a CheckoutTest.cpp
+	clang++ -O3 -std=c++2a -pthread CheckoutTest.cpp Checkout.a  $(HOME)/googletest/build/lib/*.a -o .CheckoutTest
+
+CheckoutTest: .CheckoutTest
+	./.CheckoutTest
+
+CheckoutTestN: .CheckoutTest
+	./.CheckoutTest --gtest_repeat=1000 --gtest_shuffle
