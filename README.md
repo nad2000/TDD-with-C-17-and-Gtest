@@ -111,7 +111,7 @@ not have any type of test implementation and should never be used, like:
    ```c++
    class MyDummy : public MyInterface {
    public:
-     void SomeFunction(){Throw “I shouldn’t be called!”;}
+     void SomeFunction(){throw exception("I shouldn’t be called!");}
    };
    ```
    Dummy objects expect to never be used and will generally 
@@ -154,7 +154,7 @@ that are suitable for the test, for example:
    public:
      void SomeFunction( int param1 ){
        if( 1 != param1 )
-         throw “I shouldn’t be called!”;}
+         throw exception("I shouldn’t be called!");}
    };
    ```
    Mock objects are the most intelligent test double. They are setup with expectations on how they will be called and will throw exceptions when those expectations are not met.
