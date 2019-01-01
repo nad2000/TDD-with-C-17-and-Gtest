@@ -98,6 +98,85 @@ clang++ -O3 -std=c++17 test.cpp -lgtest -lgtest_main  -o test -pthread ; ./test
 
 ```
 
+## Mocking and Test Doubles
+
+### What Are Test Doubles?
+
+ - Almost all code depends (i.e. collaborates) with other parts of the
+system.
+ - Those other parts of the system are not always easy to replicate in
+the unit test environment or would make tests slow if used directly.
+ - Test doubles are objects that are used in unit tests as replacements
+to the real production system collaborators.
+
+### Types of Test Doubles
+
+ - **Dummy** - Objects that can be passed around as necessary but do
+not have any type of test implementation and should never be used, like:
+   ```c++
+   class MyDummy : public MyInterface {
+   public:
+     void SomeFunction(){Throw “I shouldn’t be called!”;}
+   };
+   ```
+   Dummy objects expect to never be used and will generally 
+   throw an exception if one of their methods is actually called.
+
+ - **Fake** - These object generally have a simplified functional
+implementation of a particular interface that is adequate for testing
+but not for production, for example:
+   ```c++
+   class MyTestDB : public DBInterface {
+   public:
+     void pushData(int data){ dataItems.push_back(data);}
+   protected:
+     vector<int> dataItems;
+   };
+   ```
+   Fake objects provide what is usually a simplified implementation of an interface that is functional but not appropriate for production (i.e. an in memory database).
+ - **Stub** - These objects provide implementations with canned answers
+that are suitable for the test, for example:
+   ```c++
+   class MyStub : public MyInterface {
+   public:
+     int SomeFunction(){ return 0;}
+   };
+   ```
+   Stubs are different than dummy test doubles in that they do expect to be called and return canned data.
+ - **Spies** - These objects provide implementations that record the values that were passed in so they can be used by the test, for example:
+   ```c++
+   class MySpy : public MyInterface {
+   public:
+     int savedParam;
+     void SomeFunction(int param1 ){savedParam = param1;}
+   };
+   ```
+   Spy objects save the parameters that were passed into them so they can be analyzed by the test.
+ - **Mocks** - These objects are pre-programmed to expect specific calls and parameters
+ and can throw exceptions when necessary, for example:
+   ```c++
+   class MyMock : public MyInterface {
+   public:
+     void SomeFunction( int param1 ){
+       if( 1 != param1 )
+         throw “I shouldn’t be called!”;}
+   };
+   ```
+   Mock objects are the most intelligent test double. They are setup with expectations on how they will be called and will throw exceptions when those expectations are not met.
+
+### Mock Frameworks
+
+ - Most mock frameworks provide easy ways for automatically creating any of these types of test doubles at runtime.
+ - They provide a fast means for creating mocking expectations for your tests.
+ - They can be much more efficient than implementing custom mock object of your own creation.
+ - Creating mock objects by hand can be tedious and error prone.
+
+### Google Mock
+
+ - C++ Mocking Framework from Google
+ - Included with and works well with Google Test.
+ - Can be used with any C++ Unit Testing Framework.
+
 ## References:
 
  - http://code.google.com/p/googletest/wiki/Documentation
