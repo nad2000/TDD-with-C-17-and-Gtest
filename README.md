@@ -4,7 +4,7 @@ Google test is a framework for writing C++ unit tests. In this short post are gi
 environtmet on Linux from source:
 
 ```shell
-sudo apt-get install cmake # install cmake
+sudo apt-get install cmake llvm-ar # we will use clang++ toolchain
 git clone https://github.com/google/googletest.git
 cd googletest
 mkdir build
