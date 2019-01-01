@@ -12,15 +12,14 @@ void Checkout::addItemPrice(std::string item, int price) {
 
 const bool Checkout::containsItem(const std::string item) {
 	auto it = prices.find(item);
-	return (it != items.end());
+	return (it != prices.end());
 }
 
 void Checkout::addItem(std::string item) {
-	if (containsItem(item)) {
-		items[item]++;
-	} else {
-		
+	if (!containsItem(item)) {
+		throw std::invalid_argument("Invalid item. No price.");
 	}
+	items[item]++;
 }
 
 int Checkout::calculateItem(std::string item, int count) {

@@ -16,10 +16,16 @@ TEST_F(CheckoutTests, CanAddAnItemPrice){
 }
 
 TEST_F(CheckoutTests, CanAddAnItem){
+	co.addItemPrice("a", 1);
 	co.addItem("a");
-	co.addItem("b");
-	co.addItem("c");
+}
+
+TEST_F(CheckoutTests, CanTellIfContainsAnItem){
+	co.addItemPrice("a", 1);
+	co.addItemPrice("b", 1);
+	co.addItemPrice("c", 1);
 	ASSERT_TRUE(co.containsItem("b"));
+	ASSERT_FALSE(co.containsItem("?"));
 }
 
 TEST_F(CheckoutTests, CanCalculateTotal){
@@ -50,6 +56,10 @@ TEST_F(CheckoutTests, CanCalculateTotalWithDiscount){
 	co.addItem("a");
 	auto total = co.getTotal();
 	ASSERT_EQ(total, 2);
+}
+
+TEST_F(CheckoutTests, ItemWithNoPriceThrowsExcepion){
+	ASSERT_THROW(co.addItem("a"), std::invalid_argument);
 }
 
 int main(int argc, char *argv[])
