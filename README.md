@@ -90,7 +90,7 @@ Assuming your test are placed in **test.cpp** build and run tests with:
 clang++ -O3 -std=c++17 test.cpp -lgtest -lgtest_main  -o test -pthread ; ./test
 
 ```
-You can hand-craft your *Makefile* from scratch too. Take a look at [Makefile in this project](./Makefile). 
+You can hand-craft your *Makefile* from scratch too. Take a look at [Makefile in this project](./Makefile#L179). 
 At the end of it you can find hand-crafted targest for the testing of an individual modulese.
 
 ## Mocking and Test Doubles
