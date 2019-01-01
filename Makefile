@@ -177,11 +177,11 @@ cmake_check_build_system:
 .PHONY : cmake_check_build_system
 
 Checkout.o: Checkout.cpp
-	clang++ -c -Wall -O3 -std=c++17 -o Checkout.o Checkout.cpp
+	clang++ -c -Wall -O3 -std=c++2a -o Checkout.o Checkout.cpp
 
 Checkout.a: Checkout.o
 	llvm-ar rc Checkout.a Checkout.o
 
 CheckoutTest: Checkout.a CheckoutTest.cpp
-	clang++ -O3 -std=c++17 -pthread CheckoutTest.cpp Checkout.a  $(HOME)/googletest/build/lib/*.a -o test 
+	clang++ -O3 -std=c++2a -pthread CheckoutTest.cpp Checkout.a  $(HOME)/googletest/build/lib/*.a -o test 
 	./test

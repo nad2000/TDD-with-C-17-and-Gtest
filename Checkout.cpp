@@ -3,15 +3,24 @@
 
 using namespace std;
 
-Checkout::Checkout(): total(0) {};
+Checkout::Checkout() {};
 Checkout::~Checkout() {};
 
 void Checkout::addItemPrice(std::string item, int price) {
 	prices[item] = price;
 }
 
+const bool Checkout::containsItem(const std::string item) {
+	auto it = prices.find(item);
+	return (it != items.end());
+}
+
 void Checkout::addItem(std::string item) {
-	items[item]++;
+	if (containsItem(item)) {
+		items[item]++;
+	} else {
+		
+	}
 }
 
 int Checkout::calculateItem(std::string item, int count) {

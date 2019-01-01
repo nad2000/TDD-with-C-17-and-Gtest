@@ -17,6 +17,9 @@ TEST_F(CheckoutTests, CanAddAnItemPrice){
 
 TEST_F(CheckoutTests, CanAddAnItem){
 	co.addItem("a");
+	co.addItem("b");
+	co.addItem("c");
+	ASSERT_TRUE(co.containsItem("b"));
 }
 
 TEST_F(CheckoutTests, CanCalculateTotal){
