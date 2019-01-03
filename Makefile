@@ -201,12 +201,14 @@ CheckoutCoverage: CheckoutTestN
 
 # Bowling Game:
 Bowling.o: Bowling.cpp
+	find . -name \*.gcda -exec rm {} \;
 	clang++ -c -Wall -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -o Bowling.o Bowling.cpp
 
 Bowling.a: Bowling.o
 	llvm-ar rc Bowling.a Bowling.o
 
 .BowlingTest: Bowling.a BowlingTest.cpp
+	find . -name \*.gcda -exec rm {} \;
 	clang++ -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -pthread BowlingTest.cpp Bowling.a  $(HOME)/googletest/build/lib/*.a -o .BowlingTest
 
 BowlingTest: .BowlingTest
