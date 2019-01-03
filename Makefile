@@ -199,3 +199,19 @@ CheckoutCoverage: CheckoutTestN
 	       --capture -o cov.info
 	genhtml cov.info -o output
 
+# Bowling Game:
+Bowling.o: Bowling.cpp
+	clang++ -c -Wall -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -o Bowling.o Bowling.cpp
+
+Bowling.a: Bowling.o
+	llvm-ar rc Bowling.a Bowling.o
+
+.BowlingTest: Bowling.a BowlingTest.cpp
+	clang++ -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -pthread BowlingTest.cpp Bowling.a  $(HOME)/googletest/build/lib/*.a -o .BowlingTest
+
+BowlingTest: .BowlingTest
+	./.BowlingTest
+
+
+BowlingTestN: .BowlingTest
+	./.BowlingTest --gtest_repeat=1000 --gtest_shuffle
