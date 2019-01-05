@@ -4,7 +4,6 @@
 class Game
 {
 private:
-	int _score;
 	int rolls[21];
 	int currentRoll;
 
@@ -13,7 +12,7 @@ public:
 	virtual ~Game();
 	const int score();
 	void roll(const int pins);
-
+	const bool isSpare(int frameIndex);
 };
 
 #endif /* BOWLING_H */
