@@ -10,6 +10,10 @@ protected:
 	void rollMany(int n, int pins) {
 		for (auto i=0; i < n; ++i) g.roll(pins);
 	}
+	void rollSpare() {
+		g.roll(5);
+		g.roll(5);
+	}
 };
 
 TEST_F(GameTests, CanRoll){
@@ -27,8 +31,7 @@ TEST_F(GameTests, allOnes){
 }
 
 TEST_F(GameTests, spare){
-	g.roll(5);
-	g.roll(5);
+	rollSpare();
 	g.roll(3);
 	rollMany(17, 0);
 	ASSERT_EQ(g.score(), 16);
