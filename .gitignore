@@ -38,3 +38,10 @@ cmake_install.cmake
 runTests
 test
 
+.*
+*.gcda
+*.gcno
+cov.info
+*.profraw
+output
+
