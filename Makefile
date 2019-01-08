@@ -176,9 +176,10 @@ cmake_check_build_system:
 	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
-INC = -I $(HOME)/googletest/include/
+INC = -I$(HOME)/googletest/googletest/include/ -I$(HOME)/googletest/googlemock/include/
 LIB = $(HOME)/googletest/build/lib/*.a 
-CLANG = clang++ -c -Wall -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a $(INC) $(LIB)
+CLANG = clang++ -c -Wall -pthread -Wno-unused-command-line-argument -O0 -g -fprofile-arcs -ftest-coverage -std=c++14 $(INC) $(LIB)
+# CLANG = clang++ -c -Wall -pthread -Wno-unused-command-line-argument -O0 -g -std=c++2a $(INC) $(LIB)
 
 Checkout.o: Checkout.cpp
 	$(CLANG) -o Checkout.o Checkout.cpp
@@ -224,11 +225,11 @@ BowlingTestN: .BowlingTest
 
 # Mocking example:
 
-.mocking: mocking.cpp
-	$(CLANG) mocking.cpp -o .mocking
+mocking: mocking.cpp
+	$(CLANG) mocking.cpp -o mocking
 
-MockingTest: .mocking
-	./.mocking
+MockingTest: mocking
+	./mocking
 
 
 MockingTestN: .CheckoutTest
