@@ -42,16 +42,16 @@ SHELL = /bin/sh
 CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E remove -f
+RM = cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rcir178/Dropbox/udemy/test-driven-development-in-c
+CMAKE_SOURCE_DIR = ?????
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rcir178/Dropbox/udemy/test-driven-development-in-c
+CMAKE_BINARY_DIR = ?????
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -176,14 +176,18 @@ cmake_check_build_system:
 	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
+INC = -I $(HOME)/googletest/include/
+LIB = $(HOME)/googletest/build/lib/*.a 
+CLANG = clang++ -c -Wall -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a $(INC) $(LIB)
+
 Checkout.o: Checkout.cpp
-	clang++ -c -Wall -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -o Checkout.o Checkout.cpp
+	$(CLANG) -o Checkout.o Checkout.cpp
 
 Checkout.a: Checkout.o
 	llvm-ar rc Checkout.a Checkout.o
 
 .CheckoutTest: Checkout.a CheckoutTest.cpp
-	clang++ -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -pthread CheckoutTest.cpp Checkout.a  $(HOME)/googletest/build/lib/*.a -o .CheckoutTest
+	$(CLANG) -pthread CheckoutTest.cpp Checkout.a  -o .CheckoutTest
 
 CheckoutTest: .CheckoutTest
 	./.CheckoutTest
@@ -221,7 +225,7 @@ BowlingTestN: .BowlingTest
 # Mocking example:
 
 .mocking: mocking.cpp
-	clang++ -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -pthread mocking.cpp Checkout.a  $(HOME)/googletest/build/lib/*.a -o .mocking
+	$(CLANG) mocking.cpp -o .mocking
 
 MockingTest: .mocking
 	./.mocking
@@ -232,8 +236,8 @@ MockingTestN: .CheckoutTest
 
 MockingCoverage: MockingTestN
 	lcov --directory . \
-	       --base-directory . \
-	       --gcov-tool ./llvm-gcov.sh \
-	       --capture -o cov.info
+	     --base-directory . \
+	     --gcov-tool ./llvm-gcov.sh \
+	     --capture -o cov.info
 	genhtml cov.info -o output
 
