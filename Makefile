@@ -225,11 +225,11 @@ BowlingTestN: .BowlingTest
 
 # Mocking example:
 
-mocking: mocking.cpp
-	$(CLANG) mocking.cpp -o mocking
+.mocking: mocking.cpp
+	$(CLANG) mocking.cpp -o .mocking
 
-MockingTest: mocking
-	./mocking
+MockingTest: .mocking
+	./.mocking
 
 
 MockingTestN: .CheckoutTest
