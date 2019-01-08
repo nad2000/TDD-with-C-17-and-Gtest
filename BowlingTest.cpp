@@ -37,6 +37,19 @@ TEST_F(GameTests, spare){
 	ASSERT_EQ(g.score(), 16);
 }
 
+TEST_F(GameTests, oneStrike){
+	g.roll(10);
+	g.roll(3);
+	g.roll(4);
+	rollMany(16, 0);
+	ASSERT_EQ(g.score(), 24);
+}
+
+TEST_F(GameTests, perfectGame){
+	rollMany(12, 10);
+	ASSERT_EQ(g.score(), 300);
+}
+
 TEST_F(GameTests, CanGetScore){
 	auto s = g.score();
 	ASSERT_EQ(s, 0);

@@ -217,3 +217,23 @@ BowlingTest: .BowlingTest
 
 BowlingTestN: .BowlingTest
 	./.BowlingTest --gtest_repeat=1000 --gtest_shuffle
+
+# Mocking example:
+
+.mocking: mocking.cpp
+	clang++ -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -pthread mocking.cpp Checkout.a  $(HOME)/googletest/build/lib/*.a -o .mocking
+
+MockingTest: .mocking
+	./.mocking
+
+
+MockingTestN: .CheckoutTest
+	./.CheckoutTest --gtest_repeat=1000 --gtest_shuffle
+
+MockingCoverage: MockingTestN
+	lcov --directory . \
+	       --base-directory . \
+	       --gcov-tool ./llvm-gcov.sh \
+	       --capture -o cov.info
+	genhtml cov.info -o output
+
