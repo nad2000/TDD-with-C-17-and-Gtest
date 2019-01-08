@@ -177,18 +177,19 @@ cmake_check_build_system:
 .PHONY : cmake_check_build_system
 
 INC = -I$(HOME)/googletest/googletest/include/ -I$(HOME)/googletest/googlemock/include/
-LIB = $(HOME)/googletest/build/lib/*.a 
-CLANG = clang++ -c -Wall -pthread -Wno-unused-command-line-argument -O0 -g -fprofile-arcs -ftest-coverage -std=c++14 $(INC) $(LIB)
+LIB = -L$(HOME)/googletest/build/lib/ -lgmock -lgtest -lgtest_main
+CLANG = clang++ -Wall -pthread -Wno-unused-command-line-argument -O0 -g -fprofile-arcs -ftest-coverage -pthread -std=c++2a $(INC) 
+# clang++ -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -pthread BowlingTest.cpp Bowling.a  $(HOME)/googletest/build/lib/*.a -o .BowlingTest
 # CLANG = clang++ -c -Wall -pthread -Wno-unused-command-line-argument -O0 -g -std=c++2a $(INC) $(LIB)
 
 Checkout.o: Checkout.cpp
-	$(CLANG) -o Checkout.o Checkout.cpp
+	$(CLANG) -o Checkout.o Checkout.cpp $(LIB)
 
 Checkout.a: Checkout.o
 	llvm-ar rc Checkout.a Checkout.o
 
 .CheckoutTest: Checkout.a CheckoutTest.cpp
-	$(CLANG) -pthread CheckoutTest.cpp Checkout.a  -o .CheckoutTest
+	$(CLANG) -pthread CheckoutTest.cpp Checkout.a  -o .CheckoutTest $(LIB)
 
 CheckoutTest: .CheckoutTest
 	./.CheckoutTest
@@ -226,7 +227,8 @@ BowlingTestN: .BowlingTest
 # Mocking example:
 
 .mocking: mocking.cpp
-	$(CLANG) mocking.cpp -o .mocking
+	find . -name \*.gcda -exec rm {} \;
+	$(CLANG) mocking.cpp -o .mocking $(LIB)
 
 MockingTest: .mocking
 	./.mocking
@@ -241,4 +243,3 @@ MockingCoverage: MockingTestN
 	     --gcov-tool ./llvm-gcov.sh \
 	     --capture -o cov.info
 	genhtml cov.info -o output
-
