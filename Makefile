@@ -178,7 +178,8 @@ cmake_check_build_system:
 
 INC = -I$(HOME)/googletest/googletest/include/ -I$(HOME)/googletest/googlemock/include/
 LIB = -L$(HOME)/googletest/build/lib/ -lgmock -lgtest -lgtest_main -lgmock_main
-CLANG = clang++ -Wall -pthread -Wno-unused-command-line-argument -O0 -g -fprofile-arcs -ftest-coverage -pthread -std=c++2a $(INC) 
+# CLANG = clang++ -Wall -pthread -Wno-unused-command-line-argument -O0 -g -fprofile-arcs -ftest-coverage -pthread -std=c++2a $(INC) 
+CLANG = clang++ -Wall -pthread -Wno-unused-command-line-argument -O0 -g -pthread -std=c++2a $(INC) 
 # clang++ -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -pthread BowlingTest.cpp Bowling.a  $(HOME)/googletest/build/lib/*.a -o .BowlingTest
 # CLANG = clang++ -c -Wall -pthread -Wno-unused-command-line-argument -O0 -g -std=c++2a $(INC) $(LIB)
 
@@ -209,7 +210,8 @@ CheckoutCoverage: CheckoutTestN
 Bowling.o: Bowling.cpp
 	find . -name \*.gcda -exec rm {} \;
 	# clang++ -c -Wall -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a $(INC) -o Bowling.o Bowling.cpp $(LIB)
-	clang++ -c -Wall -O0 -g -std=c++2a $(INC) -o Bowling.o Bowling.cpp $(LIB)
+	# clang++ -c -Wall -O0 -g -std=c++2a $(INC) -o Bowling.o Bowling.cpp $(LIB)
+	$(CLANG) -c -o Bowling.o Bowling.cpp $(LIB)
 
 Bowling.a: Bowling.o
 	llvm-ar rc Bowling.a Bowling.o
@@ -217,7 +219,8 @@ Bowling.a: Bowling.o
 .BowlingTest: Bowling.a BowlingTest.cpp
 	find . -name \*.gcda -exec rm {} \;
 	# clang++ $(INC) -O0 -g -fprofile-arcs -ftest-coverage -std=c++2a -pthread BowlingTest.cpp Bowling.a  $(LIB) -o .BowlingTest
-	clang++ $(INC) -O0 -g -std=c++2a -pthread BowlingTest.cpp Bowling.a  $(LIB) -o .BowlingTest
+	# clang++ $(INC) -O0 -g -std=c++2a -pthread BowlingTest.cpp Bowling.a  $(LIB) -o .BowlingTest
+	$(CLANG) BowlingTest.cpp Bowling.a  $(LIB) -o .BowlingTest
 
 BowlingTest: .BowlingTest
 	./.BowlingTest
