@@ -2,12 +2,14 @@
 
 Game::Game(): rolls{0}, currentRoll(0) {}
 Game::~Game() {}
-void Game::roll(const int pins) {rolls[currentRoll++] = pins;}
+void Game::roll(const int pins) {
+	rolls[currentRoll++] = pins;
+}
 const int Game::score() {
 	int s = 0, i = 0;
 	for (int frame = 0; frame < 10; ++frame) {
 		if (rolls[i] == 10) {
-			s = 10 + rolls[i+1] + rolls[i + 2];
+			s += 10 + rolls[i+1] + rolls[i + 2];
 			i++;
 		} else {
 			if (isSpare(i)) s += 10 + rolls[i+2];
